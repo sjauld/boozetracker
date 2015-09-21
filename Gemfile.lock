@@ -1,0 +1,148 @@
+GEM
+  remote: https://rubygems.org/
+  remote: https://rails-assets.org/
+  specs:
+    activemodel (4.2.4)
+      activesupport (= 4.2.4)
+      builder (~> 3.1)
+    activerecord (4.2.4)
+      activemodel (= 4.2.4)
+      activesupport (= 4.2.4)
+      arel (~> 6.0)
+    activesupport (4.2.4)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
+    arel (6.0.3)
+    bond (0.5.1)
+    builder (3.2.2)
+    coffee-script (2.4.1)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.9.1.1)
+    dotenv (2.0.2)
+    execjs (2.6.0)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
+    haml (4.0.7)
+      tilt
+    hashie (3.4.2)
+    hike (1.2.3)
+    i18n (0.7.0)
+    json (1.8.3)
+    jwt (1.5.1)
+    minitest (5.8.0)
+    multi_json (1.11.2)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    oauth2 (1.0.0)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (~> 1.2)
+    omniauth (1.2.2)
+      hashie (>= 1.2, < 4)
+      rack (~> 1.0)
+    omniauth-google-oauth2 (0.2.6)
+      omniauth (> 1.0)
+      omniauth-oauth2 (~> 1.1)
+    omniauth-oauth2 (1.2.0)
+      faraday (>= 0.8, < 0.10)
+      multi_json (~> 1.3)
+      oauth2 (~> 1.0)
+      omniauth (~> 1.2)
+    pg (0.18.3)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    rails-assets-bootstrap (3.3.5)
+      rails-assets-jquery (>= 1.9.1)
+    rails-assets-bootstrap3-datetimepicker (4.15.35)
+      rails-assets-jquery (>= 1.8.3)
+      rails-assets-moment (>= 2.9.0)
+    rails-assets-jquery (2.1.4)
+    rails-assets-moment (2.10.6)
+    rake (10.4.2)
+    ripl (0.7.1)
+      bond (~> 0.5.1)
+    ripl-multi_line (0.3.1)
+      ripl (>= 0.3.6)
+    ripl-rack (0.2.1)
+      rack (>= 1.0)
+      rack-test (~> 0.6.2)
+      ripl (>= 0.7.0)
+    sass (3.4.18)
+    sinatra (1.4.6)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    sinatra-activerecord (2.0.8)
+      activerecord (>= 3.2)
+      sinatra (~> 1.0)
+    sinatra-asset-pipeline (0.7.0)
+      coffee-script (~> 2.3)
+      rake (~> 10.0)
+      sass (~> 3.1)
+      sinatra (~> 1.4)
+      sprockets (~> 2.12)
+      sprockets-helpers (~> 1.1)
+      sprockets-sass (~> 1.2)
+    sinatra-flash (0.3.0)
+      sinatra (>= 1.0.0)
+    sinatra-redirect-with-flash (0.2.1)
+      sinatra (>= 1.0.0)
+    sprockets (2.12.4)
+      hike (~> 1.2)
+      multi_json (~> 1.0)
+      rack (~> 1.0)
+      tilt (~> 1.1, != 1.3.0)
+    sprockets-helpers (1.2.1)
+      sprockets (>= 2.2)
+    sprockets-sass (1.3.1)
+      sprockets (~> 2.0)
+      tilt (~> 1.1)
+    sqlite3 (1.3.10)
+    thread_safe (0.3.5)
+    tilt (1.4.1)
+    tux (0.3.0)
+      ripl (>= 0.3.5)
+      ripl-multi_line (>= 0.2.4)
+      ripl-rack (>= 0.2.0)
+      sinatra (>= 1.2.1)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    uglifier (2.7.2)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
+    yahoo-finance (1.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activerecord!
+  dotenv!
+  haml!
+  omniauth-google-oauth2!
+  pg!
+  rails-assets-bootstrap!
+  rails-assets-bootstrap3-datetimepicker!
+  rails-assets-jquery!
+  rails-assets-moment!
+  sinatra!
+  sinatra-activerecord!
+  sinatra-asset-pipeline!
+  sinatra-flash!
+  sinatra-redirect-with-flash!
+  sqlite3!
+  tux!
+  uglifier!
+  yahoo-finance!
+
+BUNDLED WITH
+   1.10.6

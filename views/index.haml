@@ -1,0 +1,81 @@
+.container
+  %h1="Mega drinking formula for #{@rundate.strftime('%d %b, %Y')}"
+  %p
+    Using a secret formula based on Anheuser-Busch Inbev's share price, we generate a magic number. If the number is divisible by
+    ="#{@divisor},"
+    you can drink.
+  %h2 Magic number
+  .jumbotron#magicnumber
+    Thinking...
+    -# =@magic_number
+  %p#result.hidden
+    -if @result
+      Drinking Time!
+    -else
+      No grogs :(
+:coffeescript
+  sleep = (ms) ->
+    start = new Date().getTime()
+    continue while new Date().getTime() - start < ms
+
+  (($) ->
+    $.fn.extend numAnim: (options) ->
+      if !@length
+        return false
+      @defaults =
+        endAt: 2560
+        numClass: 'autogen-num'
+        duration: 5
+        interval: 90
+      settings = $.extend({}, @defaults, options)
+      $num = $('<span/>', 'class': settings.numClass)
+      @each ->
+        $this = $(this)
+        # Wrap each number in a tag.
+        frag = document.createDocumentFragment()
+        numLen = settings.endAt.toString().length
+        x = 0
+        while x < numLen
+          rand_num = Math.floor(Math.random() * 10)
+          frag.appendChild $num.clone().text(rand_num)[0]
+          x++
+        $this.empty().append frag
+
+        get_next_num = (num) ->
+          ++num
+          if num > 9
+            return 0
+          num
+
+        # Iterate each number.
+        $this.find('.' + settings.numClass).each ->
+          `var $num`
+          $num = $(this)
+          num = parseInt($num.text())
+          interval = setInterval((->
+            num = get_next_num(num)
+            $num.text num
+            return
+          ), settings.interval)
+          setTimeout (->
+            clearInterval interval
+            return
+          ), settings.duration * 1000 - (settings.interval)
+          return
+        setTimeout (->
+          $this.text settings.endAt.toString()
+          return
+        ), settings.duration * 1000
+        return
+    return
+  ) jQuery
+
+  $ ->
+    $("#magicnumber").numAnim({
+      endAt: "#{@magic_number}",
+      duration: 3
+    })
+    setTimeout (->
+      $("#result").removeClass('hidden')
+      return
+    ), 4000
