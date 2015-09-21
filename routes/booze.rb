@@ -17,10 +17,6 @@ class App < Sinatra::Base
     haml :index
   end
 
-  get '/secret-google-stuff' do
-    haml :secret
-  end
-
 
 
 end
