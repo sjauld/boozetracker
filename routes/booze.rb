@@ -2,7 +2,10 @@ class App < Sinatra::Base
 
   include Rack::Utils
 
+  # TODO: profile page
+
   get '/' do
+    # TODO: build a leaderboard here
     haml :index
   end
 
