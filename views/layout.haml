@@ -33,22 +33,26 @@
         .navbar-collapse.collapse
           %ul.nav.navbar-nav
             %li
-              %a{href: "/#"} A
+              %a{href: "/week"} Input weekly results
             %li
-              %a{href: '/#'} B
-            %li
-              %a{href: '/#'} C
+              %a{href: '/booze'} Booze?
+            -# %li
+            -#   %a{href: '/#'} C
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                = username
+                = @user.email rescue "Hello stranger"
                 %b.caret
               %ul.dropdown-menu
-                %li
-                  %a{:href => "/login"} Login
-                %li.divider
-                %li
-                  %a{:href => "/logout"} Logout
+                -if !@user.nil?
+                  %li
+                    %a{href: '/#'} Profile
+                  %li
+                    %a{href: '/logout'} Logout
+                -else
+                  %li
+                    %a{href: '/login'} Login
+
         / /.nav-collapse
       %div
         - if flash[:error] then

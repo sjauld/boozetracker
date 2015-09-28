@@ -21,7 +21,6 @@ class App < Sinatra::Base
     register Sinatra::AssetPipeline
 
     # sinatra-flash
-    enable :sessions
     register Sinatra::Flash
     helpers Sinatra::RedirectWithFlash
 
@@ -35,7 +34,20 @@ class App < Sinatra::Base
 
 end
 
-# require './config/environments'
+require './config/environments'
 require './extensions/google_oauth2'
 require './routes/init'
 require './helpers/init'
+
+class User < ActiveRecord::Base
+  has_many :weekly_results
+end
+
+class Week < ActiveRecord::Base
+  has_many :weekly_results
+end
+
+class WeeklyResult < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :week
+end

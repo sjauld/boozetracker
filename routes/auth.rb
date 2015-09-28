@@ -1,6 +1,7 @@
 class App < Sinatra::Base
-  configure do
-    enable :sessions
+
+  before '/*' do
+    build_user
   end
 
   before '/user/*' do
@@ -11,6 +12,11 @@ class App < Sinatra::Base
   get '/401' do
     status 401
     haml :_401
+  end
+
+  not_found do
+    status 404
+    haml :_404
   end
 
   # login section
@@ -44,13 +50,6 @@ class App < Sinatra::Base
 
   def auth_hash
     request.env['omniauth.auth']
-  end
-
-
-  helpers do
-    def username
-      session["email"] ? session["email"] : 'Hello stranger'
-    end
   end
 
 end
