@@ -33,11 +33,9 @@
         .navbar-collapse.collapse
           %ul.nav.navbar-nav
             %li
-              %a{href: "/week"} Input weekly results
+              %a{href: "/week"} Input data
             %li
               %a{href: '/booze'} Booze?
-            -# %li
-            -#   %a{href: '/#'} C
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
@@ -46,7 +44,7 @@
               %ul.dropdown-menu
                 -if !@user.nil?
                   %li
-                    %a{href: '/#'} Profile
+                    %a{href: '/user'} Profile
                   %li
                     %a{href: '/logout'} Logout
                 -else

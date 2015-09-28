@@ -2,11 +2,23 @@ class App < Sinatra::Base
 
   include Rack::Utils
 
-  # TODO: profile page
 
+  # TODO: build a leaderboard here
   get '/' do
-    # TODO: build a leaderboard here
+    @year = params[:year] || Date.today.year
+    @results = WeeklyResult.includes(:week).where('weeks.week_num'.to_i > @year * 100).references(:week)
+    @leaderboard = {}
+    @results.each do |result|
+      @leaderboard[result.user.email.to_sym] ||= {user: result.user, dry_days: 0}
+      @leaderboard[result.user.email.to_sym][:dry_days] += result.dry_days
+    end
+    puts @leaderboard.inspect
     haml :index
+  end
+
+  get '/user' do
+    @this_user = User.find(params[:user]) rescue @user
+    haml :profile
   end
 
   get '/results/:weeknum' do
@@ -23,7 +35,7 @@ class App < Sinatra::Base
     user_results.dry_days = dry_days
     user_results.save
     flash[:notice] = "Your profile has been updated"
-    redirect to("/week?#{week.week_num}")
+    redirect to("/week?date=#{week.week_num}")
   end
 
   get '/booze' do

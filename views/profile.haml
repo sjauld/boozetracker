@@ -1,0 +1,58 @@
+%h1
+  %img{src: @this_user.image}
+  =@this_user.name
+.row
+  .col-md-4
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-user
+          %span.text User Profile
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover
+            %tbody
+              %tr
+                %th{scope: :row} Display Name
+                %td=@this_user.first_name
+              %tr
+                %th{scope: :row} Email
+                %td=@this_user.email
+  .col-md-8
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-beer
+          %span.text History
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover.tablesorter
+            %thead
+              %tr
+                %th{scope: :col} Week
+                %th.centered{scope: :col} M
+                %th.centered{scope: :col} T
+                %th.centered{scope: :col} W
+                %th.centered{scope: :col} T
+                %th.centered{scope: :col} F
+                %th.centered{scope: :col} S
+                %th.centered{scope: :col} S
+                %th.numeric{scope: :col} Dry Days
+            %tbody
+              -if @this_user.weekly_results.empty?
+                %tr
+                  %td{scope: :row, colspan: 9} You have no results yet
+              -else
+                -@this_user.weekly_results.includes(:week).order('weeks.week_num DESC').references(:week).limit(10).each do |weekly_result|
+                  %tr
+                    %th{scope: :row}
+                      %a{href: "/week?date=#{weekly_result.week.week_num}"}
+                        =weekly_result.week.start_date
+                    -Date::DAYNAMES.rotate(1).map{|x| x.downcase}.each do |day|
+                      %td.centered
+                        -if this = weekly_result.send("#{day}_drinks")
+                          -if this > 0
+                            %i.fa.fa-beer.text-danger
+                          -else
+                            %i.fa.fa-heart.text-success
+                    %td.numeric=weekly_result.dry_days.to_i

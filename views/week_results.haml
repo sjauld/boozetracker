@@ -22,13 +22,14 @@
           %th.centered{scope: :col} F
           %th.centered{scope: :col} S
           %th.centered{scope: :col} S
-          %th.numberic{scope: :col} Dry Days
+          %th.numeric{scope: :col} Dry Days
       %tbody
         -@all_users.each do |user|
           -user_results = user.weekly_results.find_by week_id: @week.id
           %tr
             %th{scope: :row}
-              =user.name
+              %a{href: "/user?user=#{user.id}"}
+                =user.name
             -Date::DAYNAMES.rotate(1).map{|x| x.downcase}.each do |day|
               %td.centered
                 -if this = user_results.send("#{day}_drinks")
@@ -45,3 +46,13 @@
                   %a{href: "/results/#{@runweek}?day=#{day}&drink=no"}
                     %i.fa.fa-heart
             %td.numeric=user_results.dry_days.to_i
+  %nav.navbar.navbar-default{fole: 'pagination'}
+    %ul.breadcrumb
+      %li
+        %a{href: "/week?date=#{(@rundate - 7).strftime('%G%V')}"}
+          %i.fa.fa-angle-double-left
+      %li
+        %span=@rundate
+      %li
+        %a{href: "/week?date=#{(@rundate + 7).strftime('%G%V')}"}
+          %i.fa.fa-angle-double-right
