@@ -1,2 +1,16 @@
 .container
-  %h1 This is the home page.
+  %h1="Leaderboard - #{@year.to_s}"
+  .table.table-hover
+    %table.table.table-hover
+      %thead
+        %tr
+          %th{scope: :col} Name
+          %th{scope: :col} Dry Days
+          %th{scope: :col} Score
+      %tbody
+        -@leaderboard.sort{|k,v| v[1][:dry_days]}.reverse.each do |user|
+          %tr
+            -puts "View: #{user.inspect}"
+            %th{scope: :row}=user[1][:user].name
+            %td=user[1][:dry_days]
+            %td=user[1][:score] || 'TBI'

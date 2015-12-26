@@ -23,6 +23,7 @@
           %th.centered{scope: :col} S
           %th.centered{scope: :col} S
           %th.numeric{scope: :col} Dry Days
+          %th.numeric{scope: :col} Score
       %tbody
         -@all_users.each do |user|
           -user_results = user.weekly_results.find_by week_id: @week.id
@@ -46,6 +47,7 @@
                   %a{href: "/results/#{@runweek}?day=#{day}&drink=no"}
                     %i.fa.fa-heart
             %td.numeric=user_results.dry_days.to_i
+            %td.numeric=user_results.score.to_i
   %nav.navbar.navbar-default{fole: 'pagination'}
     %ul.breadcrumb
       %li

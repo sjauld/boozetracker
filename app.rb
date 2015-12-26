@@ -32,6 +32,12 @@ class App < Sinatra::Base
     end
   end
 
+  # I don't know what this was supposed to be...
+  # # setup stuff
+  # if User.where(email: 'random@booze.man').count == 0
+  #   User.create(name: 'Random Boozeman', first_name: 'Random', last_name: 'Boozeman', email: 'stu@thelyricalmadmen.com', TODO: 'image')
+  # end
+
 end
 
 require './config/environments'

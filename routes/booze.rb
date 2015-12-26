@@ -6,13 +6,13 @@ class App < Sinatra::Base
   # TODO: build a leaderboard here
   get '/' do
     @year = params[:year] || Date.today.year
-    @results = WeeklyResult.includes(:week).where('weeks.week_num'.to_i > @year * 100).references(:week)
+    @results = WeeklyResult.includes(:week).where("weeks.week_num > #{@year.to_i * 100} AND weeks.week_num < #{(@year.to_i + 1) * 100}").references(:week)
     @leaderboard = {}
     @results.each do |result|
-      @leaderboard[result.user.email.to_sym] ||= {user: result.user, dry_days: 0}
-      @leaderboard[result.user.email.to_sym][:dry_days] += result.dry_days
+      @leaderboard[result.user.email.to_sym] ||= {user: result.user, dry_days: 0, score: 0}
+      @leaderboard[result.user.email.to_sym][:dry_days] += result.dry_days.to_i
+      @leaderboard[result.user.email.to_sym][:score] += result.score.to_i
     end
-    puts @leaderboard.inspect
     haml :index
   end
 
@@ -33,12 +33,14 @@ class App < Sinatra::Base
       dry_days += (user_results.send "#{day}_drinks") == 0 ? 1 : 0
     end
     user_results.dry_days = dry_days
+    user_results.score = 10 + ([dry_days - 3,0].min) * 5
     user_results.save
     flash[:notice] = "Your profile has been updated"
     redirect to("/week?date=#{week.week_num}")
   end
 
   get '/booze' do
+
     # which date to run
     @rundate = Date.parse(params[:date]) rescue nil || Date.today
     opts = {
