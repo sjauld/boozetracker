@@ -38,6 +38,7 @@
                 %th.centered{scope: :col} S
                 %th.centered{scope: :col} S
                 %th.numeric{scope: :col} Dry Days
+                %th.numeric{scope: :col} Score
             %tbody
               -if @this_user.weekly_results.empty?
                 %tr
@@ -56,3 +57,4 @@
                           -else
                             %i.fa.fa-heart.text-success
                     %td.numeric=weekly_result.dry_days.to_i
+                    %td.numeric=weekly_result.score.to_i
