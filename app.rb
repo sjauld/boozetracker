@@ -30,9 +30,14 @@ class App < Sinatra::Base
         settings.sprockets.append_path(path)
       end
     end
+
+    # redis
+    redis_uri = URI.parse(ENV["REDISCLOUD_URL"])
+    $redis = Redis.new(:host => redis_uri.host, :port => redis_uri.port, :password => redis_uri.password)
+
   end
 
-  # I don't know what this was supposed to be...
+  # This has something to do with creating the random user but I think we have scrapped it for now
   # # setup stuff
   # if User.where(email: 'random@booze.man').count == 0
   #   User.create(name: 'Random Boozeman', first_name: 'Random', last_name: 'Boozeman', email: 'stu@thelyricalmadmen.com', TODO: 'image')

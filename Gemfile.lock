@@ -68,6 +68,7 @@ GEM
     rails-assets-jquery (2.1.4)
     rails-assets-moment (2.10.6)
     rake (10.4.2)
+    redis (3.2.1)
     ripl (0.7.1)
       bond (~> 0.5.1)
     ripl-multi_line (0.3.1)
@@ -134,6 +135,7 @@ DEPENDENCIES
   rails-assets-bootstrap3-datetimepicker!
   rails-assets-jquery!
   rails-assets-moment!
+  redis!
   sinatra!
   sinatra-activerecord!
   sinatra-asset-pipeline!

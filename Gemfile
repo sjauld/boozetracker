@@ -13,6 +13,7 @@ source 'https://rubygems.org' do
     gem 'sinatra-asset-pipeline'
     gem 'uglifier'
     gem 'dotenv'
+    gem 'redis'
   end
 
   group :development do
