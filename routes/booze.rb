@@ -2,8 +2,6 @@ class App < Sinatra::Base
 
   include Rack::Utils
 
-
-  # TODO: build a leaderboard here
   get '/' do
     @year = params[:year] || Date.today.year
     @results = WeeklyResult.includes(:week).where("weeks.week_num > #{@year.to_i * 100} AND weeks.week_num < #{(@year.to_i + 1) * 100}").references(:week)
