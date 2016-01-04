@@ -14,6 +14,8 @@ source 'https://rubygems.org' do
     gem 'uglifier'
     gem 'dotenv'
     gem 'redis'
+    gem 'postmark'
+    gem 'mail'
   end
 
   group :development do
