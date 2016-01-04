@@ -33,6 +33,9 @@ GEM
     i18n (0.7.0)
     json (1.8.3)
     jwt (1.5.1)
+    mail (2.6.3)
+      mime-types (>= 1.16, < 3)
+    mime-types (2.6.2)
     minitest (5.8.0)
     multi_json (1.11.2)
     multi_xml (0.5.5)
@@ -55,6 +58,9 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     pg (0.18.3)
+    postmark (1.6.0)
+      json
+      rake
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -68,6 +74,7 @@ GEM
     rails-assets-jquery (2.1.4)
     rails-assets-moment (2.10.6)
     rake (10.4.2)
+    redis (3.2.1)
     ripl (0.7.1)
       bond (~> 0.5.1)
     ripl-multi_line (0.3.1)
@@ -128,12 +135,15 @@ DEPENDENCIES
   activerecord!
   dotenv!
   haml!
+  mail!
   omniauth-google-oauth2!
   pg!
+  postmark!
   rails-assets-bootstrap!
   rails-assets-bootstrap3-datetimepicker!
   rails-assets-jquery!
   rails-assets-moment!
+  redis!
   sinatra!
   sinatra-activerecord!
   sinatra-asset-pipeline!

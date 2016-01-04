@@ -30,9 +30,14 @@ class App < Sinatra::Base
         settings.sprockets.append_path(path)
       end
     end
+
+    # redis
+    redis_uri = URI.parse(ENV["REDISCLOUD_URL"])
+    $redis = Redis.new(:host => redis_uri.host, :port => redis_uri.port, :password => redis_uri.password)
+
   end
 
-  # I don't know what this was supposed to be...
+  # This has something to do with creating the random user but I think we have scrapped it for now
   # # setup stuff
   # if User.where(email: 'random@booze.man').count == 0
   #   User.create(name: 'Random Boozeman', first_name: 'Random', last_name: 'Boozeman', email: 'stu@thelyricalmadmen.com', TODO: 'image')
@@ -45,6 +50,8 @@ require './extensions/google_oauth2'
 require './routes/init'
 require './helpers/init'
 
+
+#TODO: refactor :)
 class User < ActiveRecord::Base
   has_many :weekly_results
 end
@@ -56,4 +63,15 @@ end
 class WeeklyResult < ActiveRecord::Base
   belongs_to :user
   belongs_to :week
+
+  def update_result
+    dry_days = 0
+    Date::DAYNAMES.map{|x| x.downcase}.each do |day|
+      dry_days += (self.send "#{day}_drinks") == 0 ? 1 : 0
+    end
+    self.dry_days = dry_days
+    self.score = 10 + ([dry_days - 3,0].min) * 5
+    self.save
+  end
+
 end

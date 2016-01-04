@@ -2,8 +2,6 @@ class App < Sinatra::Base
 
   include Rack::Utils
 
-
-  # TODO: build a leaderboard here
   get '/' do
     @year = params[:year] || Date.today.year
     @results = WeeklyResult.includes(:week).where("weeks.week_num > #{@year.to_i * 100} AND weeks.week_num < #{(@year.to_i + 1) * 100}").references(:week)
@@ -26,15 +24,10 @@ class App < Sinatra::Base
     raise 'Error - week results not yet created' unless week = Week.find_by_week_num(params[:weeknum])
     raise 'Error - not logged in' unless @user
     raise 'Error - user results for this week not yet created' unless user_results = (@user.weekly_results.find_by week_id: week.id)
+    #TODO: move this logic to the model
     outcome = params[:drink] == 'yes' ? true : params[:drink] == 'no' ? false : nil
     user_results.send "#{params[:day]}_drinks=", outcome
-    dry_days = 0
-    Date::DAYNAMES.map{|x| x.downcase}.each do |day|
-      dry_days += (user_results.send "#{day}_drinks") == 0 ? 1 : 0
-    end
-    user_results.dry_days = dry_days
-    user_results.score = 10 + ([dry_days - 3,0].min) * 5
-    user_results.save
+    user_results.update_result
     flash[:notice] = "Your profile has been updated"
     redirect to("/week?date=#{week.week_num}")
   end
