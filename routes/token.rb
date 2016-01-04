@@ -7,7 +7,7 @@ class App < Sinatra::Base
     else
       my_result = WeeklyResult.find(packet['result'])
       my_result.send "#{packet['parameter']}=", params[:result] == 'yes' ? true : params[:result] == 'no' ? false : nil
-      my_result.save
+      my_result.update_result
       if params[:result] == 'yes'
         flash[:notice] = 'Mmmm... beer.'
       elsif params[:result] == 'no'
