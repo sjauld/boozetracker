@@ -50,6 +50,8 @@ require './extensions/google_oauth2'
 require './routes/init'
 require './helpers/init'
 
+
+#TODO: refactor :)
 class User < ActiveRecord::Base
   has_many :weekly_results
 end
