@@ -1,7 +1,10 @@
 class App < Sinatra::Base
 
   get '/token/:token' do
-    if packet = JSON.parse($redis.get(params[:token]))
+    packet = JSON.parse($redis.get(params[:token])) rescue nil
+    if packet.nil?
+      'It looks like this token has expired. Maybe try updating your results via the <a href="/">website</a>.'
+    else
       my_result = WeeklyResult.find(packet['result'])
       my_result.send "#{packet['parameter']}=", params[:result] == 'yes' ? true : params[:result] == 'no' ? false : nil
       my_result.save
@@ -12,8 +15,6 @@ class App < Sinatra::Base
       else
         'I think you stuffed something up there'
       end
-    else
-      'It looks like this token has expired. Maybe try updating your results via the <a href="/">website</a>.'
     end
   end
 
