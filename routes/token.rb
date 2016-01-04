@@ -16,7 +16,7 @@ class App < Sinatra::Base
         flash[:error] = 'I think you stuffed something up there'
       end
     end
-    redirect to('/')
+    redirect to("/week?date=#{my_result.week.week_num}")
   end
 
 end
