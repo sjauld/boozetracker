@@ -18,9 +18,13 @@ task :console do
   IRB.start
 end
 
+task :test do
+  puts "Test in progress"
+end
+
 task :emailer do
   require 'securerandom'
-  baseurl = 'http://boozertracker.marsupialmusic.net/token/'
+  baseurl = 'http://boozetracker.marsupialmusic.net/token/'
   runweek = Date.today.strftime("%G%V")
   # get the current conditions
   current_week = Week.find_by(week_num: runweek) ||
