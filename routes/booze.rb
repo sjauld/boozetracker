@@ -21,13 +21,16 @@ class App < Sinatra::Base
 
   get '/results/:weeknum' do
     # Validation
-    raise 'Error - week results not yet created' unless week = Week.find_by_week_num(params[:weeknum])
-    raise 'Error - not logged in' unless @user
-    raise 'Error - user results for this week not yet created' unless user_results = (@user.weekly_results.find_by week_id: week.id)
-    #TODO: move this logic to the model
-    outcome = params[:drink] == 'yes' ? true : params[:drink] == 'no' ? false : nil
-    user_results.send "#{params[:day]}_drinks=", outcome
-    user_results.update_result
+    begin
+      raise 'Error - week results not yet created' unless week = Week.find_by_week_num(params[:weeknum])
+      raise 'Error - not logged in' unless @user
+      raise 'Error - user results for this week not yet created' unless user_results = (@user.weekly_results.find_by week_id: week.id)
+    rescue => e
+      flash[:error] = e.message
+      redirect to ('/')
+    end
+
+    user_results.update(params[:day],params[:drink])
     flash[:notice] = "Your profile has been updated"
     redirect to("/week?date=#{week.week_num}")
   end
