@@ -23,4 +23,8 @@ module Auth
     end
   end
 
+  def authorized?
+    !(@user.nil? || @user['email'].nil?)
+  end
+
 end

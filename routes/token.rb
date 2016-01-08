@@ -4,10 +4,20 @@ class App < Sinatra::Base
     packet = JSON.parse($redis.get(params[:token])) rescue nil
     if packet.nil?
       flash[:error] = 'It looks like this token has expired.'
+      redirect to('/')
     else
+
+      unless authorized?
+        session['email'] = User.find(packet['user']).email
+        build_user
+      end
+
+      # temporary fix to remove _drinks from old tokens
+      day = packet['parameter'].split('_drinks').first
+
       my_result = WeeklyResult.find(packet['result'])
-      my_result.send "#{packet['parameter']}=", params[:result] == 'yes' ? true : params[:result] == 'no' ? false : nil
-      my_result.update_result
+      my_result.update(day,params[:result])
+
       if params[:result] == 'yes'
         flash[:notice] = 'Mmmm... beer.'
       elsif params[:result] == 'no'
