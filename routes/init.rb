@@ -1,3 +1,5 @@
 require_relative 'auth'
 require_relative 'booze'
+require_relative 'results'
 require_relative 'token'
+require_relative 'user'
