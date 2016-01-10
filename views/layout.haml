@@ -39,7 +39,7 @@
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                = @user.email rescue "Hello stranger"
+                = @user.email rescue "Login / Signup"
                 %b.caret
               %ul.dropdown-menu
                 -if !@user.nil?
@@ -49,7 +49,7 @@
                     %a{href: '/logout'} Logout
                 -else
                   %li
-                    %a{href: '/login'} Login
+                    %a{href: '/login'} via Google
 
         / /.nav-collapse
       %div
