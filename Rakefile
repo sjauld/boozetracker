@@ -22,6 +22,23 @@ task :test do
   puts "Test in progress"
 end
 
+task :prune_db do
+  puts "Pruning weekly results"
+  # Where to put this stuff?  
+  WeeklyResult.where("
+    monday_drinks IS NULL AND
+    tuesday_drinks IS NULL AND
+    wednesday_drinks IS NULL AND
+    thursday_drinks IS NULL AND
+    friday_drinks IS NULL AND
+    saturday_drinks IS NULL AND
+    sunday_drinks IS NULL").each do |row|
+    puts "Pruning row #{row.id}"
+    row.delete
+  end
+
+end
+
 task :emailer do
   require 'securerandom'
   baseurl = 'http://boozetracker.marsupialmusic.net/token/'
