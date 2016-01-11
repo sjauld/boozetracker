@@ -13,11 +13,13 @@ class App < Sinatra::Base
   end
 
   get '/results/:weeknum' do
+    # Select the user
+    the_user = User.find(params[:useroverride]) rescue @user
     # Validation
     begin
       raise 'Error - week results not yet created' unless week = Week.find_by_week_num(params[:weeknum])
       raise 'Error - not logged in' unless @user
-      raise 'Error - user results for this week not yet created' unless user_results = (@user.weekly_results.find_by week_id: week.id)
+      raise 'Error - user results for this week not yet created' unless user_results = (the_user.weekly_results.find_by week_id: week.id)
     rescue => e
       flash[:error] = e.message
       redirect to ('/')
