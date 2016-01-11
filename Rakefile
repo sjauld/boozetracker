@@ -24,7 +24,7 @@ end
 
 task :prune_db do
   puts "Pruning weekly results"
-  # Where to put this stuff?  
+  # Where to put this stuff?
   WeeklyResult.where("
     monday_drinks IS NULL AND
     tuesday_drinks IS NULL AND
@@ -77,7 +77,7 @@ task :emailer do
           to      "#{u.name} <#{u.email}>"
           subject 'BoozeTracker Reminder'
           content_type 'text/html; charset=UTF-8'
-          body    "<p>Did you have a drink yesterday?</p><p><a href='#{baseurl}#{my_token}?result=yes'>Yes</a> | <a href='#{baseurl}#{my_token}?result=no'>No</a></p><p>--</p><p>Brought to you by <a href='http://boozetracker.marsupialmusic.net/'>BoozeTracker</a> | <a href='http://boozetracker.marsupialmusic.net/unsubscribe?user=u.id'>Unsubscribe</a></p>"
+          body    "<p>Did you have a drink yesterday?</p><p><a href='#{baseurl}#{my_token}?result=yes'>Yes</a> | <a href='#{baseurl}#{my_token}?result=no'>No</a></p><p>--</p><p>Brought to you by <a href='http://boozetracker.marsupialmusic.net/'>BoozeTracker</a> | <a href='http://boozetracker.marsupialmusic.net/unsubscribe?user=#{u.id}'>Unsubscribe</a></p>"
           delivery_method Mail::Postmark, api_token: ENV['POSTMARK_API_TOKEN']
         end
         message.deliver
