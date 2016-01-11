@@ -8,7 +8,7 @@
           %th{scope: :col} Dry Days
           %th{scope: :col} Score
       %tbody
-        -@leaderboard.sort{|x,y| y[1][:score] <=> x[1][:score]}.each do |user|
+        -@leaderboard.sort{|x,y| [y[1][:score], x[1][:dry_days]] <=> [x[1][:score],y[1][:dry_days]]}.each do |user|
           %tr
             -puts "View: #{user.inspect}"
             %th{scope: :row}=user[1][:user].name
