@@ -1,6 +1,8 @@
 .container
   -# TODO: breadcrumb navigation to scroll back and forth
   %h1="Weekly results"
+  %p.text-right#unhide
+    %a{href: '#'} Edit your results
   .alert.alert-dismissible.alert-info
     %button{type: 'button', class: 'close', 'data-dismiss': 'alert', 'aria-label': 'close '}
       %span{'aria-hidden': true} &times;
@@ -25,6 +27,7 @@
           %th.numeric{scope: :col} Dry Days
           %th.numeric{scope: :col} Score
       %tbody
+        -# TODO: Move this to the controller
         -@all_users.each do |user|
           -user_results = user.weekly_results.find_by week_id: @week.id
           %tr
@@ -48,6 +51,20 @@
                     %i.fa.fa-heart
             %td.numeric=user_results.dry_days.to_i
             %td.numeric=user_results.score.to_i
+        %tr#edit.hidden
+          %th{scope: :row}=@user.name
+          -Date::DAYNAMES.rotate(1).map{|x| x.downcase}.each do |day|
+            %td.centered
+              %a{href: "/results/#{@runweek}?day=#{day}&drink=yes"}
+                %i.fa.fa-beer
+              |
+              %a{href: "/results/#{@runweek}?day=#{day}&drink=no"}
+                %i.fa.fa-heart
+          %td.centered
+          %td.centered
+
+
+
   %nav.navbar.navbar-default{fole: 'pagination'}
     %ul.breadcrumb
       %li
@@ -58,3 +75,7 @@
       %li
         %a{href: "/week?date=#{(@rundate + 7).strftime('%G%V')}"}
           %i.fa.fa-angle-double-right
+
+:coffee
+  $("#unhide").click ()->
+    $("#edit").toggleClass('hidden')
