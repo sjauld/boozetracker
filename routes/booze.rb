@@ -2,6 +2,10 @@ class App < Sinatra::Base
 
   include Rack::Utils
 
+  get '/rules' do
+    haml :rules
+  end
+
   get '/booze' do
 
     # which date to run
