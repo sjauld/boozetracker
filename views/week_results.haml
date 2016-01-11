@@ -52,7 +52,7 @@
             %td.numeric=user_results.dry_days.to_i
             %td.numeric=user_results.score.to_i
         %tr#edit.hidden
-          %th{scope: :row}=@user.name
+          %th{scope: :row}=@user.name rescue "Please log in!"
           -Date::DAYNAMES.rotate(1).map{|x| x.downcase}.each do |day|
             %td.centered
               %a{href: "/results/#{@runweek}?day=#{day}&drink=yes"}
