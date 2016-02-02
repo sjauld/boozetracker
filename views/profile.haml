@@ -20,7 +20,10 @@
                 %td=@this_user.email
               %tr
                 %th{scope: :row} Subscribed?
-                %td=@this_user.unsubscribed ? 'No' : 'Yes'
+                %td
+                  =@this_user.unsubscribed ? 'No' : 'Yes'
+                  %a{href: '/user/toggle-subscription'} (toggle)
+
 
   .col-md-8
     .panel.panel-default
