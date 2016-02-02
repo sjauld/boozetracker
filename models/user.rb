@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
     puts "checking #{self.name}"
     my_result = self.weekly_results.find_by(week_id: week_id) ||
       self.weekly_results.create(week_id: week_id)
-    if my_result.send("#{day}_drinks").nil?
+    if my_result.send("#{day}_drinks").nil? && !self.unsubscribed
       # generate a token and save to Redis
       puts "No data for #{self.name} - #{Date.today}. Sending email"
       my_token = SecureRandom.urlsafe_base64

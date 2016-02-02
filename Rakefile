@@ -39,10 +39,6 @@ task :prune_db do
 
 end
 
-task :email_test do
-  User.first.email_reminder('asd')
-end
-
 task :emailer do
   runweek = Date.today.strftime("%G%V")
   # get the current conditions
