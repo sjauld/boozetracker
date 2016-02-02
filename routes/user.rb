@@ -1,9 +1,9 @@
 class App < Sinatra::Base
 
   get '/user/:id/unsubscribe' do
-    @this_user = User.find(params[:id])
-    @this_user.unsubscribed = true
-    @this_user.save
+    this_user = User.find(params[:id])
+    this_user.unsubscribed = true
+    this_user.save
     flash[:notice] = "#{this_user.name} has been unsubscribed"
     redirect '/'
   end
