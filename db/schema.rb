@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923212934) do
+ActiveRecord::Schema.define(version: 20160202105445) do
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -19,8 +19,9 @@ ActiveRecord::Schema.define(version: 20150923212934) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "image"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.boolean  "unsubscribed"
   end
 
   create_table "weekly_results", force: :cascade do |t|
