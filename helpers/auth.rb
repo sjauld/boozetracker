@@ -1,5 +1,8 @@
 module Auth
   def build_user
+    if @user.nil? && ENV['RACK_ENV'] == 'development'
+      @user = User.find(1)
+    end
     if @user.nil? && !session['email'].nil?
       if User.where(email: session['email']).count == 0
         User.create(
