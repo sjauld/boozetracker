@@ -5,6 +5,14 @@ class User < ActiveRecord::Base
   # TODO: move to config
   BASEURL = "http://boozertracker.marsupialmusic.net"
 
+  # Toggle subscription status
+  #
+  # @return [void]
+  def unsubscribe
+    self.unsubscribed = !self.unsubscribed
+    self.save
+  end
+
   # Send an email reminder to the user
   def email_reminder(week_id,day)
     # can we use a template?
@@ -29,7 +37,7 @@ class User < ActiveRecord::Base
         to      "#{u.name} <#{u.email}>"
         subject 'BoozeTracker Reminder'
         content_type 'text/html; charset=UTF-8'
-        body    "<p>Did you have a drink yesterday?</p><p><a href='#{BASEURL}/token/#{my_token}?result=yes'>Yes</a> | <a href='#{BASEURL}/token/#{my_token}?result=no'>No</a></p><p>--</p><p>Brought to you by <a href='#{BASEURL}'>BoozeTracker</a> | <a href='#{BASEURL}/unsubscribe?user=#{u.id}'>Unsubscribe</a></p>"
+        body    "<p>Did you have a drink yesterday?</p><p><a href='#{BASEURL}/token/#{my_token}?result=yes'>Yes</a> | <a href='#{BASEURL}/token/#{my_token}?result=no'>No</a></p><p>--</p><p>Brought to you by <a href='#{BASEURL}'>BoozeTracker</a> | <a href='#{BASEURL}/user/toggle-subscription?token=#{my_token}'>Unsubscribe</a></p>"
         delivery_method Mail::Postmark, api_token: ENV['POSTMARK_API_TOKEN']
       end
       message.deliver
