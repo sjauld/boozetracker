@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   require 'securerandom'
   # TODO: move to config
-  BASEURL = "http://boozertracker.marsupialmusic.net"
+  BASEURL = "http://boozetracker.marsupialmusic.net"
 
   # Toggle subscription status
   #
