@@ -42,7 +42,7 @@
                   -else
                     %i.fa.fa-heart.text-success
                 -elsif user != @user
-                  No data
+                  %i.fa.fa-question-circle-o.text-warning
                 -else
                   %a{href: "/results/#{@runweek}?day=#{day}&drink=yes"}
                     %i.fa.fa-beer
