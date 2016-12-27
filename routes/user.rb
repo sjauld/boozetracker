@@ -1,12 +1,5 @@
 class App < Sinatra::Base
 
-  get '/user/:id/delete-poiyutre' do
-    this_user = User.find(params[:id])
-    this_user.delete
-    flash[:notice] = "#{this_user.name} has been deleted"
-    redirect '/'
-  end
-
   # unsubscribe a user (admin use only - protect this or remove)
   get '/user/:id/unsubscribe' do
     this_user = User.find(params[:id])
