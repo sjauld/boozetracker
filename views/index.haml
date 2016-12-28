@@ -12,6 +12,6 @@
           %tr
             -puts "View: #{user.inspect}"
             %th{scope: :row}
-              %a{href: "/user?user=#{user[1][:user].id}"}=user[1][:user].name
+              %a{href: "/users/#{user[1][:user].id}"}=user[1][:user].name
             %td=user[1][:dry_days]
             %td=user[1][:score] || 'TBI'

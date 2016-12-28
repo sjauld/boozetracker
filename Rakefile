@@ -4,6 +4,9 @@
 require 'sinatra/asset_pipeline/task'
 require './app'
 
+# rspec
+require 'rspec/core/rake_task'
+
 Sinatra::AssetPipeline::Task.define!(App)
 
 # Active record stuff
@@ -18,12 +21,8 @@ task :console do
   IRB.start
 end
 
-task :test do
-  puts "Test in progress"
-end
-
 task :prune_db do
-  puts "Pruning weekly results"
+  puts 'Pruning weekly results'
   # Where to put this stuff?
   WeeklyResult.where("
     monday_drinks IS NULL AND
@@ -36,21 +35,21 @@ task :prune_db do
     puts "Pruning row #{row.id}"
     row.delete
   end
-
 end
 
 task :emailer do
-  runweek = Date.today.strftime("%G%V")
+  runweek = Date.today.strftime('%G%V')
+  startdate = Date.commercial(runweek[0, 4].to_i, runweek[4, 2].to_i)
   # get the current conditions
   current_week = Week.find_by(week_num: runweek) ||
-    Week.create(
-      week_num: runweek,
-      start_date: Date.commercial(runweek[0,4].to_i,runweek[4,2].to_i)
-    )
+                 Week.create(
+                   week_num: runweek,
+                   start_date: startdate
+                 )
   day = Date.today.strftime('%A').downcase
 
   # Loop through all of the users
-  $redis.pipelined do
-    User.all.each{|u| u.email_reminder(current_week.id,day)}
+  Cache.redis.pipelined do
+    User.all.each { |u| u.email_reminder(current_week.id, day) }
   end
 end

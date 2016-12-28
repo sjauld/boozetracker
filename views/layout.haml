@@ -46,7 +46,7 @@
               %ul.dropdown-menu
                 -if !@user.nil?
                   %li
-                    %a{href: '/user'} Profile
+                    %a{href: "/users/#{@user.id}"} Profile
                   %li
                     %a{href: '/logout'} Logout
                 -else

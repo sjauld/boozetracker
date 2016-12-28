@@ -1,5 +1,5 @@
+# [App]
 class App < Sinatra::Base
-
   include Rack::Utils
 
   get '/rules' do
@@ -7,9 +7,7 @@ class App < Sinatra::Base
   end
 
   get '/booze' do
-
-    # which date to run
-    @rundate = Date.parse(params[:date]) rescue nil || Date.today
+    @rundate = parse_date(params)
     opts = {
       rundate: @rundate,
       divisor: params[:divisor]
@@ -18,29 +16,53 @@ class App < Sinatra::Base
     haml :booze
   end
 
-  def create_magic_number(opts={})
-    # Validate
-    raise 'create_magic_number called with future date' if opts[:rundate] > Date.today
-
+  # Validates inputs and gets a magic number from Yahoo!
+  #
+  # @option [Date] rundate the date for which the magic number is generated
+  # @option [Integer] divisor some integer
+  # @return [Hash] a results hash
+  def create_magic_number(opts = {})
     # defaults
     opts[:rundate] ||= Date.today
     opts[:divisor] ||= 4
-
-    # get the stock price for Anheuser-Busch inbev
-    yahoo_client = YahooFinance::Client.new
-    data = yahoo_client.historical_quotes("BUD", { start_date: opts[:rundate] - 7})
-    magic_number = data.first.open.chars.map{|x| x.to_i}.reduce(:+) + data.first.close.chars.map{|x| x.to_i}.reduce(:+) + opts[:rundate].day
-    result = ((magic_number % opts[:divisor].to_i) == 0 ? true : false)
-
-    # return a hash
-    {
-      result: result,
-      magic_number: magic_number,
-      divisor: opts[:divisor]
-    }
-
+    drinking_hash(opts[:rundate], opts[:divisor])
   end
 
+  private
 
+  # Generates a results hash based on Yahoo stock prices and a divisor
+  #
+  # @param [Date] rundate the date for which the magic number is generated
+  # @param [Integer] divisor some integer
+  # @return [Hash] a results hash
+  def drinking_hash(rundate, divisor)
+    # Validate
+    raise ArgumentError, 'Cannot predict future' if opts[:rundate] > Date.today
+    num = magic_number(rundate - 7)
+    result = (num % divisor.to_i).zero?
+    # return a hash
+    { result: result, magic_number: num, divisor: divisor }
+  end
 
+  # Converts a date to a magic number
+  #
+  # @param [Date] run date the date
+  # @return [Integer] magic number
+  def magic_number(date)
+    # get the stock price for Anheuser-Busch inbev
+    data = YahooFinance::Client.new.historical_quotes(
+      'BUD', start_date: date
+    ).first
+    data.open.chars.map(&:to_i).reduce(:+) +
+      data.close.chars.map(&:to_i).reduce(:+) +
+      date.day
+  end
+
+  # Parses the date if provided, else return today
+  #
+  # @option [String] date some formatted date string
+  # @return [Date] the parsed date
+  def parse_date(opts)
+    opts[:date] ? Date.parse(opts[:date]) : Date.today
+  end
 end

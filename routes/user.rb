@@ -1,58 +1,42 @@
+# [App]
 class App < Sinatra::Base
+  # user routes are protected
+  before '/users/*' do
+    authorize
+  end
 
-  # unsubscribe a user (admin use only - protect this or remove)
-  get '/user/:id/unsubscribe' do
+  #############
+  # Hobo routes
+
+  # self management of email subscription
+  get '/users/toggle-subscription' do
+    @user.toggle_subscription!
+    flash[:notice] = "Subscription set to #{!@user.unsubscribed}"
+    redirect "/users/#{@user.id}"
+  end
+
+  # unsubscribe
+  get '/users/unsubscribe' do
+    @user.unsubscribe!
+    flash[:notice] = 'You have been unsubscribed'
+    redirect "/users/#{@user.id}"
+  end
+
+  #############
+  # Real routes
+
+  # unsubscribe a user
+  get '/users/:id/unsubscribe' do
+    authorize_admin
     this_user = User.find(params[:id])
-    this_user.unsubscribed = true
-    this_user.save
+    this_user.unsubscribe!
     flash[:notice] = "#{this_user.name} has been unsubscribed"
     redirect '/'
   end
 
-  # self management of email subscription
-  get '/user/toggle-subscription' do
-    if !params[:token].nil?
-      packet = JSON.parse($redis.get(params[:token])) rescue nil
-      if packet.nil?
-        flash[:error] = 'It looks like this token has expired.'
-        redirect to('/')
-      else
-        unless authorized?
-          session['email'] = User.find(packet['user']).email
-          build_user
-        end
-      end
-    end
-    @user.unsubscribe
-    flash[:notice] = "Subscription set to #{!@user.unsubscribed}"
-    redirect "/user?user=#{@user.id}"
-  end
-
   # user profile
-  get '/user' do
-    @this_user = User.find(params[:user]) rescue @user
+  get '/users/:id' do
+    @this_user = User.find(params[:id])
     haml :profile
   end
-
-  # legacy - to be removed
-  get '/unsubscribe' do
-    user = User.find(params[:user]) rescue @user
-    if user.nil?
-      flash[:error] = 'User ID incorrect or not provided'
-      redirect '/'
-    end
-    user.unsubscribe
-    message = Mail.new do
-      from    ENV['EMAIL_FROM']
-      to      "sja@marsupialmusic.net"
-      subject 'Boozetracker user unsubscribed'
-      content_type 'text/html; charset=UTF-8'
-      body    "#{user.name} has clicked unsubscribe"
-      delivery_method Mail::Postmark, api_token: ENV['POSTMARK_API_TOKEN']
-    end
-    message.deliver
-    flash[:notice] = "You may have been unsubscribed"
-    redirect '/'
-  end
-
 end
