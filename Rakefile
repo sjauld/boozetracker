@@ -2,12 +2,12 @@
 
 # Asset pipeline
 require 'sinatra/asset_pipeline/task'
-require './app'
+require './booze_tracker'
 
 # rspec
 require 'rspec/core/rake_task'
 
-Sinatra::AssetPipeline::Task.define!(App)
+Sinatra::AssetPipeline::Task.define!(BoozeTracker)
 
 # Active record stuff
 require 'sinatra/activerecord/rake'
@@ -16,7 +16,7 @@ require 'sinatra/activerecord/rake'
 task :console do
   require 'irb'
   require 'irb/completion'
-  require './app' # You know what to do.
+  require './booze_tracker' # You know what to do.
   ARGV.clear
   IRB.start
 end

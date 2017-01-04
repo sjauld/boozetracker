@@ -1,5 +1,5 @@
 .container
-  %h1="Leaderboard - #{@year.to_s}"
+  %h1="Leaderboard - #{@rundate.strftime('%B %Y')}"
   .table.table-hover
     %table.table.table-hover
       %thead
@@ -8,7 +8,7 @@
           %th{scope: :col} Dry Days
           %th{scope: :col} Score
       %tbody
-        -@leaderboard.sort{|x,y| [y[1][:score], x[1][:dry_days]] <=> [x[1][:score],y[1][:dry_days]]}.each do |user|
+        -@users.each do |user|
           %tr
             -puts "View: #{user.inspect}"
             %th{scope: :row}

@@ -29,15 +29,23 @@ module Auth
   def authorize
     default_user if ENV['RACK_ENV'] == 'development'
     login_with_token(params[:token]) if params[:token]
-    redirect to('/401') if @user.nil? || @user['email'].nil?
+    redirect to('/401') unless authorized?
   end
 
   def authorized?
     !(@user.nil? || @user['email'].nil?)
   end
 
+  def admin?
+    @user.admin
+  end
+
   def authorize_admin
-    redirect to('/401') unless @user.admin
+    redirect to('/401') unless admin?
+  end
+
+  def authorize_edit(id)
+    redirect to('/401') unless admin? || @user.id == id
   end
 
   private

@@ -11,11 +11,22 @@ require 'sinatra/asset_pipeline'
 require 'sinatra/flash'
 require 'sinatra/redirect_with_flash'
 
-# Redis
-require './lib/cache'
+# workaround for rake / sinatra namespace clash
+self.instance_eval do
+  alias :namespace_pre_sinatra :namespace if self.respond_to?(:namespace, true)
+end
 
-# [App]
-class App < Sinatra::Base
+require 'sinatra/namespace'
+
+self.instance_eval do
+  alias :namespace :namespace_pre_sinatra if self.respond_to?(:namespace_pre_sinatra, true)
+end
+
+require './lib/cache'
+require './lib/score'
+
+# [BoozeTracker]
+class BoozeTracker < Sinatra::Base
   include Cache
 
   configure do
@@ -24,9 +35,8 @@ class App < Sinatra::Base
     set :assets_css_compressor, :sass
     set :assets_js_compressor, :uglifier
     register Sinatra::AssetPipeline
-
-    # sinatra-flash
     register Sinatra::Flash
+    register Sinatra::Namespace
     helpers Sinatra::RedirectWithFlash
 
     # Actual Rails Assets integration, everything else is Sprockets

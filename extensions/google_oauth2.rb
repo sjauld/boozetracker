@@ -1,5 +1,5 @@
-# [App]
-class App < Sinatra::Base
+# [BoozeTracker]
+class BoozeTracker < Sinatra::Base
   secret = Digest::SHA2.hexdigest("#{ENV['GOOGLE_ID']}+#{ENV['GOOGLE_SECRET']}")
   use Rack::Session::Cookie, secret: secret
   if ENV['RACK_ENV'] == 'development'

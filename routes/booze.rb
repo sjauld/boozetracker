@@ -1,5 +1,5 @@
-# [App]
-class App < Sinatra::Base
+# [BoozeTracker]
+class BoozeTracker < Sinatra::Base
   include Rack::Utils
 
   get '/rules' do
