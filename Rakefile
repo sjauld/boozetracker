@@ -68,9 +68,9 @@ task :migrate_v1_to_v2 do
     user = wr.user
     (1..7).each do |day|
       result = case wr.send "#{Date::DAYNAMES[day % 7].downcase}_drinks"
-               when 1
+               when 0
                  false
-               when 2
+               when 1
                  true
                end
       begin
