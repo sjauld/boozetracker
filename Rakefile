@@ -5,7 +5,7 @@ require 'sinatra/asset_pipeline/task'
 require './booze_tracker'
 
 # rspec
-require 'rspec/core/rake_task'
+require 'rspec/core/rake_task' if RACK_ENV == 'test'
 
 Sinatra::AssetPipeline::Task.define!(BoozeTracker)
 
