@@ -28,6 +28,7 @@ class BoozeTracker < Sinatra::Base
         flash[:notice] = 'Successfully updated'
         redirect back
       end
+
       # toggle subscription for a user
       get '/toggle-subscription' do
         authorize_edit(@current_user.id)
@@ -46,7 +47,7 @@ class BoozeTracker < Sinatra::Base
 
       # show user profile
       get '' do
-        @rundate = Date.today
+        @rundate = params[:date] ? Date.parse(params[:date]) : Date.today
         haml :'users/profile'
       end
     end

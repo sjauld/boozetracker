@@ -1,10 +1,19 @@
 # [Score]
 class Score
   class << self
-
     DRY_DAY_POINTS = 5.freeze
     BEER_DAY_PENALTY = -1.freeze
     MAXIMUM_WEEK = 10.freeze
+
+    # Calculate the score for a month from the data array
+    #
+    # @param [Array<Hash>] data
+    # @return [Integer] the score for a month
+    def calculate_for_month_from_hash(data)
+      data.each_slice(7).reduce(0) do |sum, d|
+        sum + calculate_for_week_from_hash(d)
+      end
+    end
 
     # Converts the array of day hashes to a score
     #

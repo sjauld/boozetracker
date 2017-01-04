@@ -32,8 +32,9 @@
           %a.navbar-brand{:href => "/"} Home
         .navbar-collapse.collapse
           %ul.nav.navbar-nav
-            %li
-              %a{href: "/week"} Weekly Info
+            -if !@user.nil?
+              %li
+                %a{href: "/users/#{@user.id}"} My Results
             %li
               %a{href: '/booze'} Booze?
             %li

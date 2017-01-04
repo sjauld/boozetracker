@@ -37,7 +37,7 @@ class BoozeTracker < Sinatra::Base
   # @return [Hash] a results hash
   def drinking_hash(rundate, divisor)
     # Validate
-    raise ArgumentError, 'Cannot predict future' if opts[:rundate] > Date.today
+    raise ArgumentError, 'Cannot predict future' if rundate > Date.today
     num = magic_number(rundate - 7)
     result = (num % divisor.to_i).zero?
     # return a hash

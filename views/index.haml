@@ -1,5 +1,9 @@
 .container
-  %h1="Leaderboard - #{@rundate.strftime('%B %Y')}"
+  %h1
+    Leaderboard:
+    %a{ href: "?date=#{@rundate << 1}" } «
+    =@rundate.strftime('%B %Y')
+    %a{ href: "?date=#{@rundate >> 1}" } »
   .table.table-hover
     %table.table.table-hover
       %thead
@@ -12,6 +16,6 @@
           %tr
             -puts "View: #{user.inspect}"
             %th{scope: :row}
-              %a{href: "/users/#{user[1][:user].id}"}=user[1][:user].name
-            %td=user[1][:dry_days]
-            %td=user[1][:score] || 'TBI'
+              %a{href: "/users/#{user.id}"}=user.name
+            %td=user.monthly_dry_days(@rundate)
+            %td=user.monthly_score(@rundate)

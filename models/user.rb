@@ -26,11 +26,13 @@ class User < ActiveRecord::Base
     save
   end
 
-  # Send an email reminder to the user
-  def email_reminder(week_id, day)
-    my_result = weekly_results.find_by(week_id: week_id) ||
-                weekly_results.create(week_id: week_id)
-    return unless my_result.send("#{day}_drinks").nil? && !unsubscribed
+  # Sends an email reminder if you haven't entered results and you're not
+  # unsubscribed
+  #
+  # @param [Type] day describe day
+  # @return [Type] description of returned object
+  def email_reminder(day)
+    return if result(day) || unsubscribed
     send_email_reminder(create_token(day))
   end
 
@@ -70,6 +72,26 @@ class User < ActiveRecord::Base
     result_string(day.year).slice(start..finish)
   end
 
+  # The number of dry days in a month
+  #
+  # @param [Date] day
+  # @return [Integer] the number of dry days in the month
+  def monthly_dry_days(day)
+    month_result_string(day).count('1')
+  end
+
+  # The score for a month
+  #
+  # @param [Date] day
+  # @return [Integer] the score for a month
+  def monthly_score(day)
+    Score.calculate_for_month_from_hash(month_result_by_week(day))
+  end
+
+  # Gives you an array of results, padded to fit into weeks
+  #
+  # @param [Date] day
+  # @return [Array<Hash>] description of returned object
   def month_result_by_week(day)
     output = []
     data = month_result_string(day)
@@ -110,25 +132,25 @@ class User < ActiveRecord::Base
 
   # An email reminder
   # @todo put in views
+  # @todo token auth???
   #
   # @param [String] token the hotlink token
   # @return [String] email body
   def email_body(token)
     '<p>Did you have a drink yesterday?</p><p><a href=' \
-    "#{BASE_URL}/token/#{token}?result=yes'>Yes</a> | <a href=" \
-    "'#{BASE_URL}/token/#{token}?result=no'>No</a></p><p>--</p>" \
-    "<p>Brought to you by <a href='#{BASE_URL}'>BoozeTracker</a> | " \
-    "<a href='#{BASE_URL}/users/toggle-subscription?token=" \
-    "#{token}'>Unsubscribe</a></p>"
+    "#{BASE_URL}/users/#{id}/result?date=#{token[:date]}&result=beer'>Yes</a>" \
+    " | <a href='#{BASE_URL}/users/#{id}?date=#{token[:date]}&result=dry'>No" \
+    "</a></p><p>--</p><p>Brought to you by <a href='#{BASE_URL}'>BoozeTracker" \
+    "</a> | <a href='#{BASE_URL}/users/#{id}/unsubscribe'>Unsubscribe</a></p>"
   end
 
   # generate a token and save to Redis
   #
-  # @param [String] day the day of the week
+  # @param [Date] day the date
   # @return [String] a token
   def create_token(day)
     my_token = SecureRandom.urlsafe_base64
-    packet = { user: id, result: nil, parameter: day }
+    packet = { user: id, date: day }
     redis.set(my_token, packet.to_json, ex: 1.week.to_i)
     my_token
   end
