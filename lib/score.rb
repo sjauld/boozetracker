@@ -1,9 +1,9 @@
 # [Score]
 class Score
   class << self
-    DRY_DAY_POINTS = 5.freeze
-    BEER_DAY_PENALTY = -1.freeze
-    MAXIMUM_WEEK = 10.freeze
+    DRY_DAY_POINTS = 5
+    BEER_DAY_PENALTY = -1
+    MAXIMUM_WEEK = 10
 
     # Calculate the score for a month from the data array
     #

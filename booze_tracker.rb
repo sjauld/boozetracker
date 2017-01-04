@@ -12,14 +12,16 @@ require 'sinatra/flash'
 require 'sinatra/redirect_with_flash'
 
 # workaround for rake / sinatra namespace clash
-self.instance_eval do
-  alias :namespace_pre_sinatra :namespace if self.respond_to?(:namespace, true)
+instance_eval do
+  alias :namespace_pre_sinatra :namespace if respond_to?(:namespace, true)
 end
 
 require 'sinatra/namespace'
 
-self.instance_eval do
-  alias :namespace :namespace_pre_sinatra if self.respond_to?(:namespace_pre_sinatra, true)
+instance_eval do
+  if respond_to?(:namespace_pre_sinatra, true)
+    alias :namespace :namespace_pre_sinatra
+  end
 end
 
 require './lib/cache'

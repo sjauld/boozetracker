@@ -11,7 +11,7 @@ class BoozeTracker < Sinatra::Base
     @users = User.where('updated_at > ?', @rundate.to_time.beginning_of_month)
                  .sort do |x, y|
       [y.monthly_score(@rundate), x.monthly_dry_days(@rundate)] <=>
-      [x.monthly_score(@rundate), y.monthly_dry_days(@rundate)]
+        [x.monthly_score(@rundate), y.monthly_dry_days(@rundate)]
     end
     haml :index
   end

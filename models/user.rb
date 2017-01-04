@@ -97,15 +97,15 @@ class User < ActiveRecord::Base
     data = month_result_string(day)
     # front pad with null days
     (day.beginning_of_month.wday - 1).times do
-      output << {result: nil, mday: nil}
+      output << { result: nil, mday: nil }
     end
     # get the data
     data.each_char.with_index do |r, i|
-      output << {result: r, mday: i + 1}
+      output << { result: r, mday: i + 1 }
     end
     # end pad
     (- output.count % 7).times do
-      output << {result: nil, mday: nil}
+      output << { result: nil, mday: nil }
     end
     output
   end
@@ -192,7 +192,7 @@ class User < ActiveRecord::Base
       data[first_week_length + 7..14 + first_week_length - 1],
       data[first_week_length + 14..21 + first_week_length - 1],
       data[first_week_length + 21..28 + first_week_length - 1],
-      data[first_week_length + 28..35 + first_week_length - 1],
+      data[first_week_length + 28..35 + first_week_length - 1]
     ].compact
   end
 

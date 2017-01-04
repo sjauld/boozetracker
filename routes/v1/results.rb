@@ -10,7 +10,8 @@ class BoozeTracker < Sinatra::Base
       @results.each do |result|
         @leaderboard[result.user.email.to_sym] ||=
           { user: result.user, dry_days: 0, score: 0 }
-        @leaderboard[result.user.email.to_sym][:dry_days] += result.dry_days.to_i
+        @leaderboard[result.user.email.to_sym][:dry_days] +=
+          result.dry_days.to_i
         @leaderboard[result.user.email.to_sym][:score] += result.score.to_i
       end
       haml :index
@@ -23,7 +24,7 @@ class BoozeTracker < Sinatra::Base
         week = Week.find_by_week_num(params[:weeknum])
         raise 'Error - week results not yet created' unless week
         user_results = @user.weekly_results.find_by(week_id: week.id)
-        raise 'Error - user results not yet created this week' unless user_results
+        raise 'Error - user results not yet created' unless user_results
       rescue => e
         flash[:error] = e.message
         redirect to '/'

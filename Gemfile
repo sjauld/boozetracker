@@ -10,8 +10,8 @@ source 'https://rubygems.org' do
     gem 'sinatra'
     gem 'sinatra-activerecord', '~> 2.0.11'
     gem 'sinatra-asset-pipeline'
-    gem 'sinatra-flash'
     gem 'sinatra-contrib', require: false
+    gem 'sinatra-flash'
     gem 'sinatra-redirect-with-flash'
     gem 'uglifier'
 
