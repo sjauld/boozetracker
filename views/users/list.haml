@@ -1,0 +1,20 @@
+%h1
+  User List
+.row
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-fw.fa-beer
+          %span.text Here they are
+      .table-responsive
+        .table.table-hover
+          %table.table.table-hover.tablesorter
+            %thead
+              %tr
+                %th{scope: :col} Username
+            %tbody
+              -@users.each do |u|
+                %tr
+                  %td
+                    %a{href: "/users/#{u.id}"}=u.name

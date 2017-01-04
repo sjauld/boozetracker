@@ -11,16 +11,34 @@ require 'sinatra/asset_pipeline'
 require 'sinatra/flash'
 require 'sinatra/redirect_with_flash'
 
-class App < Sinatra::Base
+# workaround for rake / sinatra namespace clash
+instance_eval do
+  alias :namespace_pre_sinatra :namespace if respond_to?(:namespace, true)
+end
+
+require 'sinatra/namespace'
+
+instance_eval do
+  if respond_to?(:namespace_pre_sinatra, true)
+    alias :namespace :namespace_pre_sinatra
+  end
+end
+
+require './lib/cache'
+require './lib/score'
+
+# [BoozeTracker]
+class BoozeTracker < Sinatra::Base
+  include Cache
 
   configure do
-    set :assets_precompile, %w(app.js app.css *.png *.jpg *.svg *.eot *.ttf *.woff)
+    set :assets_precompile,
+        %w(app.js app.css *.png *.jpg *.svg *.eot *.ttf *.woff)
     set :assets_css_compressor, :sass
     set :assets_js_compressor, :uglifier
     register Sinatra::AssetPipeline
-
-    # sinatra-flash
     register Sinatra::Flash
+    register Sinatra::Namespace
     helpers Sinatra::RedirectWithFlash
 
     # Actual Rails Assets integration, everything else is Sprockets
@@ -29,19 +47,7 @@ class App < Sinatra::Base
         settings.sprockets.append_path(path)
       end
     end
-
-    # redis
-    redis_uri = URI.parse(ENV["REDISCLOUD_URL"])
-    $redis = Redis.new(:host => redis_uri.host, :port => redis_uri.port, :password => redis_uri.password)
-
   end
-
-  # This has something to do with creating the random user but I think we have scrapped it for now
-  # # setup stuff
-  # if User.where(email: 'random@booze.man').count == 0
-  #   User.create(name: 'Random Boozeman', first_name: 'Random', last_name: 'Boozeman', email: 'stu@thelyricalmadmen.com', TODO: 'image')
-  # end
-
 end
 
 require './config/environments'

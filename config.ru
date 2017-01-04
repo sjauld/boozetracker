@@ -1,2 +1,2 @@
-require './app'
-run App.new
+require './booze_tracker.rb'
+run BoozeTracker.new

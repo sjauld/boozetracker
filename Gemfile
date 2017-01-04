@@ -1,24 +1,39 @@
-ruby '2.2.1'
-source 'https://rubygems.org' do
+ruby '2.4.0'
 
+source 'https://rubygems.org' do
   group :core do
-    gem 'yahoo-finance'
-    gem 'omniauth-google-oauth2'
-    gem 'sinatra'
-    gem 'haml'
+    # Basic things
     gem 'activerecord'
-    gem 'sinatra-activerecord'
+    gem 'haml'
+    gem 'json', '~> 2.0'
+    gem 'redis'
+    gem 'sinatra'
+    gem 'sinatra-activerecord', '~> 2.0.11'
+    gem 'sinatra-asset-pipeline'
+    gem 'sinatra-contrib', require: false
     gem 'sinatra-flash'
     gem 'sinatra-redirect-with-flash'
-    gem 'sinatra-asset-pipeline'
     gem 'uglifier'
+
+    # Magic number function
+    gem 'yahoo-finance'
+
+    # auth
+    gem 'omniauth-google-oauth2'
+
+    # dev support
     gem 'dotenv'
-    gem 'redis'
-    gem 'postmark'
+
+    # email
     gem 'mail'
+    gem 'postmark'
   end
 
-  group :development do
+  group :development, :test do
+    gem 'rerun'
+    gem 'rspec', require: false
+    gem 'rubocop'
+    gem 'simplecov'
     gem 'sqlite3'
     gem 'tux'
   end
@@ -26,7 +41,6 @@ source 'https://rubygems.org' do
   group :production do
     gem 'pg'
   end
-
 end
 
 source 'https://rails-assets.org' do

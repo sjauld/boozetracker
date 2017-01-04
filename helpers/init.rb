@@ -1,4 +1,4 @@
 require_relative 'auth'
-App.helpers Auth
+BoozeTracker.helpers Auth
 require_relative 'dates'
-App.helpers Dates
+BoozeTracker.helpers Dates

@@ -1,5 +1,10 @@
 configure :development do
-  set :database, "sqlite3://#{File.join(Dir.pwd,'dev.db')}"
+  set :database, "sqlite3://#{File.join(Dir.pwd, 'dev.db')}"
+  set :show_exceptions, true
+end
+
+configure :test do
+  set :database, "sqlite3://#{File.join(Dir.pwd, 'test.db')}"
   set :show_exceptions, true
 end
 

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202105445) do
+ActiveRecord::Schema.define(version: 20161227012420) do
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -19,9 +18,13 @@ ActiveRecord::Schema.define(version: 20160202105445) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "image"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.boolean  "unsubscribed"
+    t.string   "results_2016", default: "0", null: false
+    t.string   "results_2017", default: "0", null: false
+    t.string   "results_2018", default: "0", null: false
+    t.boolean  "admin"
   end
 
   create_table "weekly_results", force: :cascade do |t|
@@ -39,10 +42,9 @@ ActiveRecord::Schema.define(version: 20160202105445) do
     t.integer  "score"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.index ["user_id"], name: "index_weekly_results_on_user_id"
+    t.index ["week_id"], name: "index_weekly_results_on_week_id"
   end
-
-  add_index "weekly_results", ["user_id"], name: "index_weekly_results_on_user_id"
-  add_index "weekly_results", ["week_id"], name: "index_weekly_results_on_week_id"
 
   create_table "weeks", force: :cascade do |t|
     t.integer  "week_num"

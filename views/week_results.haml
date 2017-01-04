@@ -32,7 +32,7 @@
           -user_results = user.weekly_results.find_by week_id: @week.id
           %tr
             %th{scope: :row}
-              %a{href: "/user?user=#{user.id}"}
+              %a{href: "/users/#{user.id}"}
                 =user.name
             -Date::DAYNAMES.rotate(1).map{|x| x.downcase}.each do |day|
               %td.centered

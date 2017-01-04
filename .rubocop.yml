@@ -1,0 +1,17 @@
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  ExtraDetails: true
+  Excludes:
+    - db/*
+    - db/*/*
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
