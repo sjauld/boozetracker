@@ -84,8 +84,16 @@ class User < ActiveRecord::Base
   #
   # @param [Date] day
   # @return [Integer] the score for a month
-  def monthly_score(day)
+  def monthly_display_score(day)
     Score.calculate_for_month_from_hash(month_result_by_week(day))[:display]
+  end
+
+  # The score for a month
+  #
+  # @param [Date] day
+  # @return [Integer] the score for a month
+  def monthly_official_score(day)
+    Score.calculate_for_month_from_hash(month_result_by_week(day))[:official]
   end
 
   # Gives you an array of results, padded to fit into weeks
