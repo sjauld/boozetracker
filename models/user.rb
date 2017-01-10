@@ -96,7 +96,7 @@ class User < ActiveRecord::Base
     output = []
     data = month_result_string(day)
     # front pad with null days
-    (day.beginning_of_month.wday - 1).times do
+    ((day.beginning_of_month.wday + 6) % 7).times do
       output << { result: nil, mday: nil }
     end
     # get the data
