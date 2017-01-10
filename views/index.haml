@@ -18,4 +18,4 @@
             %th{scope: :row}
               %a{href: "/users/#{user.id}"}=user.name
             %td=user.monthly_dry_days(@rundate)
-            %td=user.monthly_score(@rundate)
+            %td=user.monthly_display_score(@rundate)
