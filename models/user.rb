@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   # @return [Type] description of returned object
   def email_reminder(day)
     return if result(day) || unsubscribed
-    send_email_reminder(create_token(day))
+    send_email_reminder(day)
   end
 
   # Retrive the drinking result for a day
@@ -114,11 +114,11 @@ class User < ActiveRecord::Base
 
   # Sends an email reminder with hotlinks
   #
-  # @param [String] token the hotlink token
+  # @param [Date] day the day to which we will hotlink
   # @return [void]
-  def send_email_reminder(token)
+  def send_email_reminder(day)
     recipient = "#{name} <#{email}>"
-    body = email_body(token)
+    body = email_body(day)
     message = Mail.new do
       from            ENV['EMAIL_FROM']
       to              recipient
@@ -134,12 +134,12 @@ class User < ActiveRecord::Base
   # @todo put in views
   # @todo token auth???
   #
-  # @param [String] token the hotlink token
+  # @param [Date] day the day to which we will hotlink
   # @return [String] email body
-  def email_body(token)
+  def email_body(day)
     '<p>Did you have a drink yesterday?</p><p><a href=' \
-    "#{BASE_URL}/users/#{id}/result?date=#{token[:date]}&result=beer'>Yes</a>" \
-    " | <a href='#{BASE_URL}/users/#{id}?date=#{token[:date]}&result=dry'>No" \
+    "#{BASE_URL}/users/#{id}/result?date=#{day.strftime}&result=beer'>Yes</a>" \
+    " | <a href='#{BASE_URL}/users/#{id}?date=#{day.strftime}&result=dry'>No" \
     "</a></p><p>--</p><p>Brought to you by <a href='#{BASE_URL}'>BoozeTracker" \
     "</a> | <a href='#{BASE_URL}/users/#{id}/unsubscribe'>Unsubscribe</a></p>"
   end
