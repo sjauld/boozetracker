@@ -66,10 +66,10 @@
                         %i.fa.fa-heart.text-success
                       -when '0'
                         -# @TODO javascript
-                        %a{ href: "#{@user.id}/result?date=#{@rundate.strftime('%Y-%m')}-#{day[:mday]}&result=beer" }
+                        %a{ href: "#{@current_user.id}/result?date=#{@rundate.strftime('%Y-%m')}-#{day[:mday].to_s.rjust(2, '0')}&result=beer" }
                           %i.fa.fa-beer
                         |
-                        %a{ href: "#{@user.id}/result?date=#{@rundate.strftime('%Y-%m')}-#{day[:mday]}&result=dry" }
+                        %a{ href: "#{@current_user.id}/result?date=#{@rundate.strftime('%Y-%m')}-#{day[:mday].to_s.rjust(2, '0')}&result=dry" }
                           %i.fa.fa-heart
                   %td.numeric=week.count('1')
-                  %td.numeric=Score.calculate_for_week_from_hash(week)
+                  %td.numeric=Score.calculate_for_week_from_hash(week)[:display]
