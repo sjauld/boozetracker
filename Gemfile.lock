@@ -28,7 +28,7 @@ GEM
     execjs (2.6.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.14)
+    ffi (1.13.1)
     haml (4.0.7)
       tilt
     hashie (3.4.2)
