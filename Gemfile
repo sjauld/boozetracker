@@ -5,7 +5,7 @@ source 'https://rubygems.org' do
     # Basic things
     gem 'activerecord'
     gem 'haml'
-    gem 'json', '~> 2.0'
+    gem 'json', '~> 2.3'
     gem 'redis'
     gem 'sinatra'
     gem 'sinatra-activerecord', '~> 2.0.11'
